@@ -39,14 +39,14 @@ class MovieView(Resource):
         return movie_service.get_item(movie_id), 200
 
     # @admin_required
-    def put(self, bid):
+    def put(self, movie_id):
         req_json = request.json
         if "id" not in req_json:
-            req_json["id"] = bid
+            req_json["id"] = movie_id
         movie_service.update(req_json)
         return "", 204
 
     # @admin_required
-    def delete(self, bid):
-        movie_service.delete(bid)
+    def delete(self, movie_id):
+        movie_service.delete(movie_id)
         return "", 204
