@@ -97,4 +97,15 @@ class BaseDAO(Generic[T]):
         self._db_session.add(user)
         self._db_session.commit()
 
+    def patch_user(self, user_data):
+        user = self.get_by_id(user_data.get("id"))
+        if user_data.get("name"):
+            user.name = user_data.get("name")
+        if user_data.get("surname"):
+            user.surname = user_data.get("surname")
+        if user_data.get("favorite_genre"):
+            user.favorite_genre = user_data.get("favorite_genre")
+
+        self._db_session.add(user)
+        self._db_session.commit()
 

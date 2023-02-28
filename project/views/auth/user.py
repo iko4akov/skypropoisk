@@ -3,7 +3,7 @@ from flask_restx import Resource, Namespace
 
 from project.container import user_service
 from project.setup.api.models import user
-
+from project.helpers.decorators import auth_required
 api = Namespace('user')
 
 
@@ -24,20 +24,30 @@ class UserView(Resource):
         return user_service.get_item(uid), 200
 
 
-    def put(self, uid):
-        req_json = request.json
-        if "id" not in req_json:
-            req_json["id"] = uid
-        user_service.update(req_json)
-        return "", 204
-
+    @auth_required
     def patch(self, uid):
+        """
+        Edited only name, surname, favorite_genre
+        """
         req_json = request.json
         if "id" not in req_json:
             req_json["id"] = uid
-        user_service.update(req_json)
+        user_service.patch_user(req_json)
 
     # @admin_required
     def delete(self, uid):
         user_service.delete(uid)
+        return "", 204
+
+@api.route('/password/<int:uid>')
+class User_pas_View(Resource):
+    @auth_required
+    def put(self, uid):
+        """
+        Edite only password
+        """
+        req_json = request.json
+        if "id" not in req_json:
+            req_json["id"] = uid
+        user_service.update(req_json)
         return "", 204

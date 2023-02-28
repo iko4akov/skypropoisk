@@ -31,5 +31,8 @@ class UserService:
         self.dao.update_user(user_data)
         return self.dao
 
+    def patch_user(self, user_data):
+        self.dao.patch_user(user_data)
+        return self.dao
     def delete(self, pk):
         self.dao.delete(pk)
