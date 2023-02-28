@@ -4,6 +4,7 @@ from flask import request
 from project.container import movie_service
 from project.setup.api.models import movie
 from project.setup.api.parsers import page_parser, status_parser
+from project.helpers.decorators import auth_required
 
 api = Namespace('movies')
 
@@ -29,7 +30,7 @@ class MoviesView(Resource):
 
 @api.route('/<int:movie_id>')
 class MovieView(Resource):
-    # @auth_required
+    @auth_required
     @api.response(404, 'Not Found')
     @api.marshal_with(movie, as_list=True, code=200, description='OK')
     def get(self, movie_id):

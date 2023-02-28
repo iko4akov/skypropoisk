@@ -26,14 +26,11 @@ class AuthView(Resource):
 
         email = req_json.get('email', None)
         password = req_json.get('password', None)
-        print(email)
-        print(password)
-
         if None in [email, password]:
             return "", 400
 
         tokens = auth_service.generate_token(email, password)
-        print(tokens)
+
         return tokens, 200
 
     def put(self):

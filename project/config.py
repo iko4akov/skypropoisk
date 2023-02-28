@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from typing import Type
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -19,8 +20,7 @@ class BaseConfig:
 
     PWD_HASH_SALT = base64.b64decode("salt")
     PWD_HASH_ITERATIONS = 100_000
-    JWT_ALGO = 'sha256'
-
+    JWT_ALGO = 'HS256'
 
 
     RESTX_JSON = {
@@ -45,8 +45,8 @@ class ProductionConfig(BaseConfig):
 
 
 class ConfigFactory:
-    flask_env = os.getenv('FLASK_ENV')
-
+    # flask_env = os.environ.get('FLASK_ENV')
+    flask_env = 'development'
     @classmethod
     def get_config(cls) -> Type[BaseConfig]:
         if cls.flask_env == 'development':
@@ -58,4 +58,4 @@ class ConfigFactory:
         raise NotImplementedError
 
 
-# config = ConfigFactory.get_config()
+config = ConfigFactory.get_config()

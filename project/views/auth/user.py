@@ -1,29 +1,28 @@
 from flask import request
 from flask_restx import Resource, Namespace
 
-from project.models import UserSchema
-
 from project.container import user_service
+from project.setup.api.models import user
 
-
-api = Namespace('users')
+api = Namespace('user')
 
 
 @api.route('/')
-class UsersView(Resource):
-    def get(self):
-        all_users = user_service.get_all()
-        res = UserSchema(many=True).dump(all_users)
 
-        return res, 200
+class UsersView(Resource):
+
+    @api.marshal_with(user, code=200, as_list=True, description='OK')
+    def get(self):
+        return user_service.get_all(), 200
 
 
 @api.route('/<int:uid>')
 class UserView(Resource):
+    @api.response(404, 'Not Found')
+    @api.marshal_with(user, code=200, description='OK')
     def get(self, uid):
-        b = user_service.get_one(uid)
-        sm_d = UserSchema().dump(b)
-        return sm_d, 200
+        return user_service.get_item(uid), 200
+
 
     def put(self, uid):
         req_json = request.json
