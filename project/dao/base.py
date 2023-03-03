@@ -36,6 +36,7 @@ class BaseDAO(Generic[T]):
                     return stmt.all()
             except NotFound:
                 return '', 404
+
         if status == 'new':
             try:
                 if status is not None:
@@ -43,11 +44,13 @@ class BaseDAO(Generic[T]):
                     return stmt.all()
             except NotFound:
                 return '', 404
+
         if page:
             try:
                 if page is not None:
                     stmt = stmt.limit(12).offset(int(page)-1)
                     return stmt.all()
+
             except NotFound:
                 return '', 404
 

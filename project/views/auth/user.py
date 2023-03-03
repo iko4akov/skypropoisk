@@ -32,22 +32,19 @@ class UserView(Resource):
         req_json = request.json
         if "id" not in req_json:
             req_json["id"] = uid
-        user_service.patch_user(req_json)
+        return user_service.patch_user(req_json)
 
     # @admin_required
     def delete(self, uid):
         user_service.delete(uid)
         return "", 204
 
-@api.route('/password/<int:uid>')
+@api.route('/password')
 class User_pas_View(Resource):
     @auth_required
-    def put(self, uid):
+    def put(self):
         """
         Edite only password
         """
         req_json = request.json
-        if "id" not in req_json:
-            req_json["id"] = uid
-        user_service.update(req_json)
-        return "", 204
+        return user_service.update(req_json)

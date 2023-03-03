@@ -27,9 +27,24 @@ class UserService:
         return self.dao.create(user_data)
 
     def update(self, user_data):
-        user_data['password'] = generate_password_hash(user_data['password'])
-        self.dao.update_user(user_data)
-        return self.dao
+        user = self.dao.get_by_email(user_data['email'])
+        if user is None:
+            return "пользователя с таким email не существует"
+        else:
+            user_data['id'] = user.id
+            password_old = user.password
+            password_old_entered = generate_password_hash(user_data['password_old'])
+            password_new = generate_password_hash(user_data['password_new'])
+            password_new_retry = generate_password_hash(user_data['password_new_retry'])
+
+            if password_old == password_old_entered:
+                if password_new == password_new_retry:
+                    if password_new != password_new_retry:
+                        user_data['password'] = password_new
+                        self.dao.update_user(user_data)
+                    return "Новый пароль должен отличаться от старого"
+                return "ошибка в повторении нового пароля", 404
+            return "Не правильно введен старый пароль", 404
 
     def patch_user(self, user_data):
         self.dao.patch_user(user_data)
