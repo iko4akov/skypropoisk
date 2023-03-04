@@ -3,48 +3,49 @@ from flask_restx import Resource, Namespace
 
 from project.container import user_service
 from project.setup.api.models import user
-from project.helpers.decorators import auth_required
+from project.helpers.decorators import auth_required, user_required
+
 api = Namespace('user')
 
-
 @api.route('/')
-
-class UsersView(Resource):
-
-    @api.marshal_with(user, code=200, as_list=True, description='OK')
-    def get(self):
-        return user_service.get_all(), 200
-
-
-@api.route('/<int:uid>')
 class UserView(Resource):
+
+    @auth_required
+    @user_required
     @api.response(404, 'Not Found')
     @api.marshal_with(user, code=200, description='OK')
-    def get(self, uid):
-        return user_service.get_item(uid), 200
+    def get(self, email):
+        """
+        Get data user
+        """
+        return user_service.get_by_email(email), 200
 
 
     @auth_required
-    def patch(self, uid):
+    def patch(self):
         """
-        Edited only name, surname, favorite_genre
+        Edited only name, surname, favorite_genre, need enter:
+        email: ...
+        name: ...
+        surname: ...
+        surname: ...
         """
         req_json = request.json
-        if "id" not in req_json:
-            req_json["id"] = uid
-        return user_service.patch_user(req_json)
+        user_service.patch_user(req_json)
+        return "Данные изменены или добавлены", 201
 
-    # @admin_required
-    def delete(self, uid):
-        user_service.delete(uid)
-        return "", 204
 
 @api.route('/password')
 class User_pas_View(Resource):
     @auth_required
     def put(self):
         """
-        Edite only password
+        Edite only password need enter:
+        email: ...
+        password_old: ...
+        password_new: ...
+        password_new_retry: ...
         """
         req_json = request.json
-        return user_service.update(req_json)
+        user_service.update(req_json)
+        return "Пароль изменен", 201

@@ -3,7 +3,6 @@ from flask import request, abort
 
 from project.config import BaseConfig
 
-
 def auth_required(func):
     def wrapper(*args, **kwargs):
         if "Authorization" not in request.headers:
@@ -22,6 +21,22 @@ def auth_required(func):
         return func(*args, **kwargs)
 
     return wrapper
+
+def user_required(func):
+    def wrapper(*args, **kwargs):
+
+        data = request.headers['Authorization']
+        token = data.split('Bearer ')[-1]
+
+        user = jwt.decode(token, BaseConfig.PWD_HASH_SALT, algorithms=[BaseConfig.JWT_ALGO])
+
+        email = user['email']
+
+        return func(email=email, *args, **kwargs)
+
+    return wrapper
+
+
 
 
 def admin_required(func):

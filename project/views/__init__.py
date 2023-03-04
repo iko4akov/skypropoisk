@@ -1,4 +1,4 @@
-from .auth import auth_ns, user_ns
+from .auth import auth_ns, user_ns, product_ns
 from .main import genre_ns, director_ns, movie_ns
 
 
@@ -7,6 +7,7 @@ __all__ = [
     'genre_ns',
     'user_ns',
     'director_ns',
-    'movie_ns'
+    'movie_ns',
+    'product_ns'
 ]
 

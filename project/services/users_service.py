@@ -46,8 +46,9 @@ class UserService:
                 return "ошибка в повторении нового пароля", 404
             return "Не правильно введен старый пароль", 404
 
-    def patch_user(self, user_data):
-        self.dao.patch_user(user_data)
-        return self.dao
+    def patch_user(self, new_data):
+        return self.dao.patch_user(new_data)
+
+
     def delete(self, pk):
         self.dao.delete(pk)
