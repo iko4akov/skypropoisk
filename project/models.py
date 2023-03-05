@@ -5,7 +5,7 @@ from project.setup.db import models
 
 
 class Genre(models.Base):
-    __tablename__ = 'genres'
+    __tablename__ = 'genre'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable=False)
 
@@ -24,7 +24,7 @@ class Movie(models.Base):
     trailer = Column(String(255))
     year = Column(Integer)
     rating = Column(Float)
-    genre_id = Column(Integer, ForeignKey("genres.id"))
+    genre_id = Column(Integer, ForeignKey("genre.id"))
     genre = relationship("Genre")
     director_id = Column(Integer, ForeignKey("director.id"))
     director = relationship("Director")
@@ -37,4 +37,14 @@ class User(models.Base):
     password = Column(String(255), nullable=False)
     name = Column(String(255))
     surname = Column(String(255))
-    favorite_genre = Column(String(255))
+    favorite_genre_id = Column(Integer, ForeignKey('genre.id'))
+    favorite_genre = relationship('Genre')
+
+class LikeMovie(models.Base):
+    __tablename__ = 'like_movie'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    genre = relationship("User")
+    movie_id = Column(Integer, ForeignKey('movie.id'))
+    movie = relationship('Movie')
+

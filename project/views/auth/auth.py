@@ -5,6 +5,8 @@ from project.container import user_service, auth_service
 
 api = Namespace("auth")
 
+
+@api.doc(201, )
 @api.route('/register')
 class AuthsView(Resource):
 

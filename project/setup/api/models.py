@@ -25,9 +25,14 @@ movie: Model = api.model('Фильм', {
 user: Model = api.model('Пользователь', {
     'id': fields.Integer(required=True, example=1),
     'email': fields.String(required=True, max_length=255, example=''),
-    'password': fields.String(required=True, max_length=255, example=''),
+    # 'password': fields.String(required=True, max_length=255, example=''),
     'name': fields.String(max_length=255, example=''),
     'surname': fields.String(max_length=255, example=''),
-    'favorite_genre': fields.String(max_length=255, example=''),
+    'favorite_genre_id': fields.Integer(example=15),
 })
 
+like_movie: Model = api.model("Фильм в избранном",{
+    "id": fields.Integer(required=True, example=2),
+    "user_id": fields.Integer(required=True, example=1),
+    "movie_id": fields.Integer(required=True, example=1),
+})

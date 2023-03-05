@@ -105,8 +105,8 @@ class BaseDAO(Generic[T]):
             user.name = user_data["name"]
         if user_data["surname"]:
             user.surname = user_data["surname"]
-        if user_data["favorite_genre"]:
-            user.favorite_genre = user_data["favorite_genre"]
+        if user_data["favorite_genre_id"]:
+            user.favorite_genre_id = user_data["favorite_genre_id"]
 
         self._db_session.add(user)
         self._db_session.commit()

@@ -18,6 +18,7 @@ class UserView(Resource):
         """
         Get data user
         """
+        print(email)
         return user_service.get_by_email(email), 200
 
 
@@ -28,7 +29,7 @@ class UserView(Resource):
         email: ...
         name: ...
         surname: ...
-        surname: ...
+        favorite_genre: ...
         """
         req_json = request.json
         user_service.patch_user(req_json)
@@ -47,5 +48,5 @@ class User_pas_View(Resource):
         password_new_retry: ...
         """
         req_json = request.json
-        user_service.update(req_json)
-        return "Пароль изменен", 201
+
+        return user_service.update(req_json), 201
