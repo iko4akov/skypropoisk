@@ -17,7 +17,6 @@ class MovieService:
     def get_all(self, page: Optional[int] = None, status: Optional[str] = None) -> list[Movie]:
         return self.dao.get_all(page=page, status=status)
 
-
     def create(self, movie_data):
         return self.dao.create(movie_data)
 

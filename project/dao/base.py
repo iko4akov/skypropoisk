@@ -7,7 +7,6 @@ from sqlalchemy.orm import scoped_session
 from werkzeug.exceptions import NotFound
 from project.setup.db.models import Base
 
-
 T = TypeVar('T', bound=Base)
 
 class BaseDAO(Generic[T]):
@@ -15,6 +14,7 @@ class BaseDAO(Generic[T]):
 
     def __init__(self, db_session: scoped_session) -> None:
         self._db_session = db_session
+
 
     @property
     def _items_per_page(self) -> int:
@@ -32,7 +32,7 @@ class BaseDAO(Generic[T]):
         if page and status == 'new':
             try:
                 if page is not None:
-                    stmt = stmt.order_by(desc(self.__model__.year)).limit(12).offset(int(page)-1)
+                    stmt = stmt.order_by(desc(self.__model__.id)).limit(12).offset(int(page)-1)
                     return stmt.all()
             except NotFound:
                 return '', 404
@@ -40,7 +40,7 @@ class BaseDAO(Generic[T]):
         if status == 'new':
             try:
                 if status is not None:
-                    stmt = stmt.order_by(desc(self.__model__.year))
+                    stmt = stmt.order_by(desc(self.__model__.id))
                     return stmt.all()
             except NotFound:
                 return '', 404
@@ -56,16 +56,27 @@ class BaseDAO(Generic[T]):
 
         return stmt.all()
 
+
     def create(self, new_data):
         entity = self.__model__(**new_data)
         self._db_session.add(entity)
         self._db_session.commit()
         return entity
 
+
     def delete(self, pk):
         object_pk = self._db_session.query(self.__model__).get(pk)
-        self._db_session.delete(object_pk)
-        self._db_session.commit()
+
+        try:
+            if object_pk is not None:
+                self._db_session.delete(object_pk)
+                self._db_session.commit()
+        except NotFound:
+            return "", 404
+
+
+
+
 
     def update_movie(self, movie_data):
         movie = self.get_by_id(movie_data.get("id"))
@@ -80,6 +91,7 @@ class BaseDAO(Generic[T]):
         self._db_session.add(movie)
         self._db_session.commit()
 
+
     def update_dir_and_gen(self, dir_gen_data):
         dir_gen = self.get_by_id(dir_gen_data.get("id"))
         dir_gen.name = dir_gen_data.get("name")
@@ -92,10 +104,9 @@ class BaseDAO(Generic[T]):
         user = self.get_by_id(user_data.get("id"))
         user.password = user_data.get("password")
 
-
-
         self._db_session.add(user)
         self._db_session.commit()
+
 
     def patch_user(self, user_data):
 
@@ -110,4 +121,3 @@ class BaseDAO(Generic[T]):
 
         self._db_session.add(user)
         self._db_session.commit()
-

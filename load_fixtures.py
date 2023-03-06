@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Type
 
 from sqlalchemy.exc import IntegrityError
 
-from project.config import DevelopmentConfig
+from instance.config import DevelopmentConfig
 from project.models import Genre, Director, Movie
 from project.server import create_app
 from project.setup.db import db, models

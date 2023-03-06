@@ -5,5 +5,5 @@ __all__ = [
     'DirectorsDAO',
     'MoviesDAO',
     'UsersDAO',
-    'LikeMovieDao'
+    'LikeMovieDao',
 ]

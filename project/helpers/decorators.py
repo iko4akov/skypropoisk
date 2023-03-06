@@ -1,7 +1,9 @@
 import jwt
 from flask import request, abort
 
-from project.config import BaseConfig
+from instance.config import BaseConfig
+from project.container import user_service
+
 
 def auth_required(func):
     def wrapper(*args, **kwargs):
@@ -31,13 +33,28 @@ def user_required(func):
         user = jwt.decode(token, BaseConfig.PWD_HASH_SALT, algorithms=[BaseConfig.JWT_ALGO])
 
         email = user['email']
+        user_id = user_service.get_by_email(email).id
 
-        return func(email=email, *args, **kwargs)
+        user["id"] = user_id
+
+        return func(user=user, *args, **kwargs)
 
     return wrapper
 
 
+def email_required(func):
+    def wrapper(*args, **kwargs):
 
+        data = request.headers['Authorization']
+        token = data.split('Bearer ')[-1]
+
+        user = jwt.decode(token, BaseConfig.PWD_HASH_SALT, algorithms=[BaseConfig.JWT_ALGO])
+
+        email = user['email']
+
+        return func(email=email, *args, **kwargs)
+
+    return wrapper
 
 def admin_required(func):
     def wrapper(*args, **kwargs):

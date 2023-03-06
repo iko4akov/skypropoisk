@@ -1,4 +1,4 @@
-from project.config import DevelopmentConfig
+from instance.config import DevelopmentConfig
 from project.server import create_app
 import create_tables
 import load_fixtures

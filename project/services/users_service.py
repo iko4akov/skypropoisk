@@ -43,7 +43,7 @@ class UserService:
 
                 if password_new == password_new_retry:
 
-                    if password_new != password_new_retry:
+                    if password_new != password_old:
                         user_data['password'] = password_new
                         self.dao.update_user(user_data)
 

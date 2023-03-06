@@ -3,7 +3,7 @@ from flask_restx import Resource, Namespace
 
 from project.container import user_service
 from project.setup.api.models import user
-from project.helpers.decorators import auth_required, user_required
+from project.helpers.decorators import auth_required, email_required
 
 api = Namespace('user')
 
@@ -11,7 +11,7 @@ api = Namespace('user')
 class UserView(Resource):
 
     @auth_required
-    @user_required
+    @email_required
     @api.response(404, 'Not Found')
     @api.marshal_with(user, code=200, description='OK')
     def get(self, email):

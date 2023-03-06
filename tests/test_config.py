@@ -1,4 +1,4 @@
-from project.config import BASE_DIR, DevelopmentConfig, TestingConfig
+from instance.config import BASE_DIR, DevelopmentConfig, TestingConfig
 from project.server import create_app
 
 

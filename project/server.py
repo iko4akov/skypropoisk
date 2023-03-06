@@ -4,7 +4,7 @@ from flask_cors import CORS
 from project.exceptions import BaseServiceError
 from project.setup.api import api
 from project.setup.db import db
-from project.views import auth_ns, user_ns, genre_ns, director_ns, movie_ns, product_ns
+from project.views import auth_ns, user_ns, genre_ns, director_ns, movie_ns, product_ns, like_movie_ns
 
 
 def base_service_error_handler(exception: BaseServiceError):
@@ -26,6 +26,7 @@ def create_app(config_obj):
     api.add_namespace(director_ns)
     api.add_namespace(movie_ns)
     api.add_namespace(product_ns)
+    api.add_namespace(like_movie_ns)
 
 
     app.register_error_handler(BaseServiceError, base_service_error_handler)

@@ -3,7 +3,7 @@ import datetime
 import jwt
 import calendar
 
-from project.config import BaseConfig
+from instance.config import BaseConfig
 from project.services.users_service import UserService
 from project.tools.security import compare_password
 
