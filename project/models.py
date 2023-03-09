@@ -47,4 +47,3 @@ class LikeMovie(models.Base):
     genre = relationship("User")
     movie_id = Column(Integer, ForeignKey('movie.id'))
     movie = relationship('Movie')
-

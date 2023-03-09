@@ -9,12 +9,12 @@ from project.setup.db.models import Base
 
 T = TypeVar('T', bound=Base)
 
+
 class BaseDAO(Generic[T]):
     __model__ = Base
 
     def __init__(self, db_session: scoped_session) -> None:
         self._db_session = db_session
-
 
     @property
     def _items_per_page(self) -> int:
@@ -32,23 +32,19 @@ class BaseDAO(Generic[T]):
         if page and status == 'new':
             try:
                 if page is not None:
-                    stmt = stmt.order_by(desc(self.__model__.id)).limit(12).offset(int(page)-1)
+                    stmt = stmt.order_by(desc(self.__model__.id)).limit(12).offset(int(page) - 1)
                     return stmt.all()
             except NotFound:
                 return '', 404
 
         if status == 'new':
-            try:
-                if status is not None:
-                    stmt = stmt.order_by(desc(self.__model__.id))
-                    return stmt.all()
-            except NotFound:
-                return '', 404
+            stmt = stmt.order_by(desc(self.__model__.id))
+            return stmt.all()
 
         if page:
             try:
                 if page is not None:
-                    stmt = stmt.limit(12).offset(int(page)-1)
+                    stmt = stmt.limit(12).offset(int(page) - 1)
                     return stmt.all()
 
             except NotFound:
@@ -56,13 +52,11 @@ class BaseDAO(Generic[T]):
 
         return stmt.all()
 
-
     def create(self, new_data):
         entity = self.__model__(**new_data)
         self._db_session.add(entity)
         self._db_session.commit()
         return entity
-
 
     def delete(self, pk):
         object_pk = self._db_session.query(self.__model__).get(pk)
@@ -73,10 +67,6 @@ class BaseDAO(Generic[T]):
                 self._db_session.commit()
         except NotFound:
             return "", 404
-
-
-
-
 
     def update_movie(self, movie_data):
         movie = self.get_by_id(movie_data.get("id"))
@@ -91,7 +81,6 @@ class BaseDAO(Generic[T]):
         self._db_session.add(movie)
         self._db_session.commit()
 
-
     def update_dir_and_gen(self, dir_gen_data):
         dir_gen = self.get_by_id(dir_gen_data.get("id"))
         dir_gen.name = dir_gen_data.get("name")
@@ -99,14 +88,12 @@ class BaseDAO(Generic[T]):
         self._db_session.add(dir_gen)
         self._db_session.commit()
 
-
     def update_user(self, user_data):
         user = self.get_by_id(user_data.get("id"))
         user.password = user_data.get("password")
 
         self._db_session.add(user)
         self._db_session.commit()
-
 
     def patch_user(self, user_data):
 

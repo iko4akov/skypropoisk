@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask_cors import CORS
+from flask_restx import Api
 
 from project.exceptions import BaseServiceError
 from project.setup.api import api
@@ -11,9 +12,17 @@ def base_service_error_handler(exception: BaseServiceError):
     return jsonify({'error': str(exception)}), exception.code
 
 
+# api = Api(title="Flask Course Project 3", doc="/docs")
+
+
 def create_app(config_obj):
     app = Flask(__name__)
     app.config.from_object(config_obj)
+
+    @app.route('/')
+    def index():
+        return render_template('index.html')
+
 
     CORS(app=app)
     db.init_app(app)
