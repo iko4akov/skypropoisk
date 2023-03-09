@@ -21,8 +21,7 @@ class MovieService:
         return self.dao.create(movie_data)
 
     def update(self, movie_data):
-        self.dao.update_movie(movie_data)
-        return self.dao
+        return self.dao.update_movie(movie_data)
 
     def delete(self, pk):
         self.dao.delete(pk)
