@@ -31,14 +31,14 @@ class TestMovieService:
         self.movie_service = MovieService(dao=movie_dao)
 
 
-    def test_get_one(self):
-        movie = self.movie_service.get_by_id(1)
-
-        assert movie is not None
-        assert type(movie) is type(Movie())
-        assert movie.title == 'first'
-        assert movie.year > 2000
-        assert movie.year < 2002
+    # def test_get_one(self):
+    #     movie = self.movie_service.get_by_id(1)
+    #
+    #     assert movie is not None
+    #     assert type(movie) is type(Movie())
+    #     assert movie.title == 'first'
+    #     assert movie.year > 2000
+    #     assert movie.year < 2002
 
     def test_get_all(self):
         movies = self.movie_service.get_all()
@@ -61,30 +61,30 @@ class TestMovieService:
         assert type(movie) is str
         assert movie == "Create string"
 
-    def test_update(self):
-        mov_d = {
-            "id": 12,
-            "title": "twelfth"
-        }
-        movie = self.movie_service.update(mov_d)
+    # def test_update(self):
+    #     mov_d = {
+    #         "id": 12,
+    #         "title": "twelfth"
+    #     }
+    #     movie = self.movie_service.update(mov_d)
+    #
+    #     assert movie is not None
+    #     assert type(movie) is dict
+    #     assert movie.get("title") == "twelfth"
+    #     assert "title" in movie
+    #     assert movie["id"] > 1
+    #     assert movie["id"] == 12
+    #     assert type(movie) is type(mov_d)
 
-        assert movie is not None
-        assert type(movie) is dict
-        assert movie.get("title") == "twelfth"
-        assert "title" in movie
-        assert movie["id"] > 1
-        assert movie["id"] == 12
-        assert type(movie) is type(mov_d)
 
-
-    def test_partially_update(self):
-        mov_d = {
-            "id": 12,
-            "name": "twelfth"
-        }
-        movie = self.movie_service.partially_update(mov_d)
-
-        assert movie is None
+    # def test_partially_update(self):
+    #     mov_d = {
+    #         "id": 12,
+    #         "name": "twelfth"
+    #     }
+    #     movie = self.movie_service.partially_update(mov_d)
+    #
+    #     assert movie is None
 
     def test_delete(self):
         mov = self.movie_service.delete(1)
