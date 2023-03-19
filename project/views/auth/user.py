@@ -3,7 +3,8 @@ from flask_restx import Resource, Namespace
 
 from project.container import user_service
 from project.setup.api.models import user
-from project.helpers.decorators import auth_required, email_required
+from project.helpers.decorators import auth_required
+from project.utils import email_required
 
 api = Namespace('user')
 
@@ -11,14 +12,13 @@ api = Namespace('user')
 class UserView(Resource):
 
     @auth_required
-    @email_required
     @api.response(404, 'Not Found')
     @api.marshal_with(user, code=200, description='OK')
-    def get(self, email):
+    def get(self):
         """
         Get data user
         """
-        print(email)
+        email = email_required()
         return user_service.get_by_email(email), 200
 
 
@@ -26,17 +26,19 @@ class UserView(Resource):
     def patch(self):
         """
         Edited only name, surname, favorite_genre, need enter:
-        email: ...
         name: ...
         surname: ...
-        favorite_genre: ...
+        favourite_genre: ...
         """
         req_json = request.json
+        print(req_json)
+        email = email_required()
+        req_json["email"] = email
         user_service.patch_user(req_json)
-        return "Данные изменены или добавлены", 201
+        return "", 201
 
 
-@api.route('/password')
+@api.route('/password/')
 class User_pas_View(Resource):
     @auth_required
     def put(self):
@@ -45,7 +47,6 @@ class User_pas_View(Resource):
         email: ...
         password_old: ...
         password_new: ...
-        password_new_retry: ...
         """
         req_json = request.json
 

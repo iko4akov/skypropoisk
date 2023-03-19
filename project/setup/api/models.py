@@ -28,7 +28,7 @@ user: Model = api.model('Пользователь', {
     # 'password': fields.String(required=True, max_length=255, example=''),
     'name': fields.String(max_length=255, example=''),
     'surname': fields.String(max_length=255, example=''),
-    'favorite_genre_id': fields.Integer(example=15),
+    'favourite_genre': fields.Integer(example=15),
 })
 
 like_movie: Model = api.model("Фильм в избранном", {

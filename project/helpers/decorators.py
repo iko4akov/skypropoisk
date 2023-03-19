@@ -42,20 +42,6 @@ def user_required(func):
     return wrapper
 
 
-def email_required(func):
-    def wrapper(*args, **kwargs):
-
-        data = request.headers['Authorization']
-        token = data.split('Bearer ')[-1]
-
-        user = jwt.decode(token, BaseConfig.PWD_HASH_SALT, algorithms=[BaseConfig.JWT_ALGO])
-
-        email = user['email']
-
-        return func(email=email, *args, **kwargs)
-
-    return wrapper
-
 def admin_required(func):
     def wrapper(*args, **kwargs):
         if "Authorization" not in request.headers:

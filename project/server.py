@@ -12,7 +12,7 @@ def base_service_error_handler(exception: BaseServiceError):
     return jsonify({'error': str(exception)}), exception.code
 
 
-# api = Api(title="Flask Course Project 3", doc="/docs")
+api = Api(title="Flask Course Project 3", doc="/docs")
 
 
 def create_app(config_obj):

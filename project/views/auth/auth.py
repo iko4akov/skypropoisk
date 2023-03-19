@@ -7,7 +7,7 @@ api = Namespace("auth")
 
 
 @api.doc(201, )
-@api.route('/register')
+@api.route('/register/')
 class AuthsView(Resource):
 
     def post(self):
@@ -16,11 +16,10 @@ class AuthsView(Resource):
         """
         req_json = request.json
         user_service.create(req_json)
+        return 201
 
-        return "", 201
 
-
-@api.route('/login')
+@api.route('/login/')
 class AuthView(Resource):
 
     def post(self):

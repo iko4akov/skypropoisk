@@ -4,7 +4,7 @@ from project.dao.base import BaseDAO
 from project.exceptions import ItemNotFound
 from project.models import User
 from project.tools.security import generate_password_hash
-
+from project.utils import email_required
 
 class UserService:
     def __init__(self, dao: BaseDAO) -> None:
@@ -23,10 +23,16 @@ class UserService:
         return self.dao.get_all(page=page)
 
     def create(self, user_data):
+        print(user_data)
         user_data['password'] = generate_password_hash(user_data['password'])
         return self.dao.create(user_data)
 
     def update(self, user_data):
+        """
+        получает
+        :param user_data:
+        :return:
+        """
         user = self.dao.get_by_email(user_data['email'])
 
         if user is None:
@@ -56,6 +62,7 @@ class UserService:
             return "Не правильно введен старый пароль"
 
     def patch_user(self, new_data):
+
         return self.dao.patch_user(new_data)
 
 
