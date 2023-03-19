@@ -15,7 +15,7 @@ class LikeMoviesView(Resource):
         return like_movie_service.get_all()
 
 
-@api.route('/<int:movie_id>')
+@api.route('/<int:movie_id>/')
 class LikeMovieView(Resource):
 
     @api.marshal_with(like_movie, as_list=True, code=200, description="OK")

@@ -29,7 +29,7 @@ class UserService:
 
     def update(self, user_data):
         """
-        получает
+        получает словарь с email и старым и новым паролями
         :param user_data:
         :return:
         """
@@ -41,23 +41,21 @@ class UserService:
         else:
             user_data['id'] = user.id
             password_old = user.password
-            password_old_entered = generate_password_hash(user_data['password_old'])
-            password_new = generate_password_hash(user_data['password_new'])
-            password_new_retry = generate_password_hash(user_data['password_new_retry'])
+            print(password_old)
+            password_old_entered = generate_password_hash(user_data['old_password'])
+            print(password_old_entered)
+            password_new = generate_password_hash(user_data['new_password'])
 
             if password_old == password_old_entered:
 
-                if password_new == password_new_retry:
+                if password_new != password_old:
+                    user_data['password'] = password_new
+                    self.dao.update_user(user_data)
 
-                    if password_new != password_old:
-                        user_data['password'] = password_new
-                        self.dao.update_user(user_data)
+                    return "Пароль изменен"
 
-                        return "Пароль изменен"
-
+                else:
                     return "Новый пароль должен отличаться от старого"
-
-                return "ошибка в повторении нового пароля"
 
             return "Не правильно введен старый пароль"
 

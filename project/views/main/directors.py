@@ -26,7 +26,7 @@ class DirectorsView(Resource):
         return "", 201, {"location": f"/director/{director.id}"}
 
 
-@api.route('/<int:director_id>')
+@api.route('/<int:director_id>/')
 class DirectorView(Resource):
     # @auth_required
     @api.response(404, 'Not Found')

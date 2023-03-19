@@ -1,5 +1,5 @@
 from flask_restx import Resource, Namespace
-from flask import request
+from flask import request, jsonify
 
 from project.container import movie_service
 from project.setup.api.models import movie
@@ -28,7 +28,7 @@ class MoviesView(Resource):
         return "", 201, {"location": f"/movies/{movie.id}"}
 
 
-@api.route('/<int:movie_id>')
+@api.route('/<int:movie_id>/')
 class MovieView(Resource):
     @auth_required
     @api.response(404, 'Not Found')

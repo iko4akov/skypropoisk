@@ -96,7 +96,6 @@ class BaseDAO(Generic[T]):
         self._db_session.commit()
 
     def patch_user(self, user_data):
-        print(user_data)
         user = self.get_by_email(user_data["email"])
 
         if "name" in user_data:

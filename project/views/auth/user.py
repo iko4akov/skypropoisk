@@ -44,10 +44,12 @@ class User_pas_View(Resource):
     def put(self):
         """
         Edite only password need enter:
-        email: ...
         password_old: ...
         password_new: ...
         """
         req_json = request.json
-
-        return user_service.update(req_json), 201
+        print(req_json)
+        email = email_required()
+        req_json["email"] = email
+        user_service.update(req_json)
+        return "", 201
