@@ -20,6 +20,7 @@ movie: Model = api.model('Фильм', {
     'trailer': fields.String(max_length=255, example=''),
     'year': fields.Integer(),
     'rating': fields.Float(),
+    'genre': genre,
 })
 
 user: Model = api.model('Пользователь', {
